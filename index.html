@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Icon & Preview Tool</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">TF</div>
+          <div class="brand-copy">
+            <h1>Icon &amp; Preview Tool</h1>
+            <span>v1.0</span>
+          </div>
+        </div>
+
+        <div class="toolbar" aria-label="Editor toolbar">
+          <button class="icon-button" id="undoBtn" type="button" title="Undo" aria-label="Undo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 10H4V5" /><path d="M4 10c2.2-3 5.1-4.5 8.6-4.1 4.1.5 7.2 4 7.4 8.2.2 4.7-3.5 8.6-8.2 8.6-2.4 0-4.5-1-6-2.5" /></svg>
+          </button>
+          <button class="icon-button" id="redoBtn" type="button" title="Redo" aria-label="Redo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 10h5V5" /><path d="M20 10c-2.2-3-5.1-4.5-8.6-4.1-4.1.5-7.2 4-7.4 8.2-.2 4.7 3.5 8.6 8.2 8.6 2.4 0 4.5-1 6-2.5" /></svg>
+          </button>
+          <div class="divider"></div>
+          <button class="icon-button" id="zoomOutBtn" type="button" title="Zoom out" aria-label="Zoom out">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" /></svg>
+          </button>
+          <span class="zoom-readout" id="zoomReadout">100%</span>
+          <button class="icon-button" id="zoomInBtn" type="button" title="Zoom in" aria-label="Zoom in">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14" /><path d="M5 12h14" /></svg>
+          </button>
+          <div class="divider"></div>
+          <button class="icon-button" id="fitBtn" type="button" title="Fit canvas" aria-label="Fit canvas">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3" /><path d="M16 3h3a2 2 0 0 1 2 2v3" /><path d="M8 21H5a2 2 0 0 1-2-2v-3" /><path d="M16 21h3a2 2 0 0 0 2-2v-3" /></svg>
+          </button>
+        </div>
+
+        <div class="top-actions">
+          <button class="ghost-button" id="clearBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4h8v2" /><path d="m9 11 .5 7" /><path d="m15 11-.5 7" /><path d="M6 6l1 15h10l1-15" /></svg>
+            Clear All
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="left-panel panel">
+          <div class="mode-tabs" role="tablist" aria-label="Mode">
+            <button class="mode-tab active" data-mode="icon" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" /><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z" /></svg>
+              ICON
+            </button>
+            <button class="mode-tab" data-mode="preview" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="12" height="16" rx="2" /><path d="M9 8h6" /><path d="M9 12h6" /><path d="M9 16h3" /></svg>
+              PREVIEW
+            </button>
+          </div>
+
+          <section class="panel-section">
+            <div class="section-title">
+              <h2 id="templateTitle">Templates <span>(Icon 1:1)</span></h2>
+              <button class="tiny-icon" type="button" title="Template help" aria-label="Template help">?</button>
+            </div>
+            <div class="template-grid" id="templateGrid"></div>
+          </section>
+
+          <section class="panel-section">
+            <button class="section-toggle" id="uploadToggle" type="button">
+              <span>Uploads</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <label class="dropzone" id="dropzone">
+              <input id="assetInput" type="file" accept="image/*,video/*,.gif,.mp4,.mov,.psd" multiple />
+              <span class="drop-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12" /><path d="m7 8 5-5 5 5" /><path d="M5 15v4h14v-4" /></svg>
+              </span>
+              <span class="drop-copy">
+                <strong>Upload Images / Videos</strong>
+                <small>JPG, PNG, GIF, MP4, MOV, PSD</small>
+              </span>
+            </label>
+            <div class="asset-grid" id="assetGrid"></div>
+          </section>
+
+          <section class="panel-section customize-section">
+            <h2>Customize</h2>
+            <div class="custom-grid">
+              <button class="custom-card" id="figmaBtn" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="6" r="3" /><circle cx="15" cy="6" r="3" /><circle cx="9" cy="12" r="3" /><circle cx="15" cy="12" r="3" /><circle cx="9" cy="18" r="3" /></svg>
+                <span>PSD / Figma</span>
+              </button>
+              <button class="custom-card" id="customTemplateBtn" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="10" height="10" rx="2" /><path d="M18 9v10" /><path d="M13 19h10" /><path d="M18 4v3" /><path d="M16.5 5.5h3" /></svg>
+                <span>Custom Template</span>
+              </button>
+              <button class="custom-card" id="psdBtn" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /><path d="M9 16h2.5a2 2 0 0 0 0-4H9v6" /><path d="M15 12h1.5a1.5 1.5 0 0 1 0 3H15v3" /></svg>
+                <span>Upload PSD</span>
+              </button>
+            </div>
+          </section>
+
+          <button class="project-button" id="projectBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h6l2 2h10v10H3z" /><path d="M3 7V5h6l2 2" /></svg>
+            <span>Project</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14" /><path d="M5 12h14" /></svg>
+          </button>
+        </aside>
+
+        <section class="center-panel panel">
+          <div class="editor-card">
+            <div class="editor-header">
+              <div>
+                <h2 id="editorTitle">Icon Editor</h2>
+                <span class="size-pill" id="sizePill">324 x 324</span>
+              </div>
+              <button class="icon-button" id="canvasFitBtn" type="button" title="Fit selection" aria-label="Fit selection">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V4h4" /><path d="M20 8V4h-4" /><path d="M4 16v4h4" /><path d="M20 16v4h-4" /><path d="M9 12h6" /><path d="M12 9v6" /></svg>
+              </button>
+            </div>
+
+            <div class="canvas-stage" id="canvasStage">
+              <canvas id="mainCanvas" width="324" height="324" aria-label="Editing canvas"></canvas>
+            </div>
+          </div>
+
+          <div class="timeline-card">
+            <div class="play-row">
+              <button class="round-button" id="playBtn" type="button" title="Play" aria-label="Play">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+              </button>
+              <span class="time-readout" id="timeReadout">00:00 / 00:03</span>
+              <input class="range progress-range" id="progressRange" type="range" min="0" max="1000" value="0" />
+            </div>
+            <div class="clip-strip-wrap">
+              <div class="playhead" id="playhead"></div>
+              <div class="clip-strip" id="clipStrip"></div>
+              <button class="next-button" id="nextClipBtn" type="button" title="Next clip" aria-label="Next clip">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="controls-grid">
+            <section class="control-card">
+              <label for="durationSelect">Duration</label>
+              <select id="durationSelect">
+                <option value="3">3.0s</option>
+                <option value="5">5.0s</option>
+                <option value="8">8.0s</option>
+                <option value="12">12.0s</option>
+              </select>
+            </section>
+            <section class="control-card wide">
+              <label>Transition</label>
+              <div class="segmented" id="transitionGroup">
+                <button class="selected" data-transition="soft" type="button" title="Soft blend" aria-label="Soft blend"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" /><path d="m7 17 10-10" /></svg></button>
+                <button data-transition="slide" type="button" title="Slide" aria-label="Slide"><svg viewBox="0 0 24 24"><path d="M5 5h14v14H5z" /><path d="M12 5v14" /></svg></button>
+                <button data-transition="fade" type="button" title="Fade" aria-label="Fade"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2" /><path d="m7 7 10 10" /></svg></button>
+                <button data-transition="cut" type="button" title="Clean reveal" aria-label="Clean reveal"><svg viewBox="0 0 24 24"><path d="M6 18 18 6" /><path d="M7 7h10v10" /></svg></button>
+              </div>
+            </section>
+            <section class="control-card wide">
+              <label>Curve</label>
+              <div class="segmented" id="curveGroup">
+                <button data-curve="ease-in" type="button" title="Ease in" aria-label="Ease in"><svg viewBox="0 0 24 24"><path d="M4 18c7 0 8-12 16-12" /></svg></button>
+                <button data-curve="linear" type="button" title="Linear" aria-label="Linear"><svg viewBox="0 0 24 24"><path d="M5 19 19 5" /></svg></button>
+                <button data-curve="ease-out" type="button" title="Ease out" aria-label="Ease out"><svg viewBox="0 0 24 24"><path d="M4 18c8 0 9-12 16-12" /></svg></button>
+                <button class="selected" data-curve="ease-in-out" type="button" title="Ease in out" aria-label="Ease in out"><svg viewBox="0 0 24 24"><path d="M4 18c4 0 4-12 8-12s4 12 8 12" /></svg></button>
+              </div>
+            </section>
+          </div>
+
+          <div class="bottom-controls">
+            <div class="speed-control">
+              <label for="speedRange">Speed</label>
+              <input class="range" id="speedRange" type="range" min="0.25" max="2" step="0.05" value="1" />
+              <span id="speedReadout">1.0x</span>
+            </div>
+            <div class="transform-controls">
+              <label for="scaleRange">Scale</label>
+              <input class="range" id="scaleRange" type="range" min="0.5" max="2.4" step="0.01" value="1" />
+              <button class="outline-button" id="resetTransformBtn" type="button">Reset</button>
+            </div>
+            <div class="instruction-control" id="instructionControl">
+              <label for="instructionInput">Instruction</label>
+              <input id="instructionInput" type="text" value="Tap to start" maxlength="42" />
+            </div>
+          </div>
+        </section>
+
+        <aside class="right-panel panel">
+          <div class="mockup-header">
+            <div>
+              <h2>Mockup Preview</h2>
+              <button class="tiny-icon" type="button" title="Mockup help" aria-label="Mockup help">?</button>
+            </div>
+            <div class="mockup-tabs" id="mockupTabs">
+              <button class="selected" data-mockup="panel" type="button">In Effect Panel</button>
+              <button data-mockup="camera" type="button">In Camera</button>
+            </div>
+          </div>
+
+          <div class="phone-wrap">
+            <div class="phone" id="phoneMockup">
+              <div class="phone-status">
+                <span>8:00</span>
+                <span class="status-dots"></span>
+              </div>
+              <div class="phone-content">
+                <canvas id="mockupCanvas" width="324" height="324" aria-label="Live mockup asset"></canvas>
+                <img id="mockupFrame" class="mockup-frame" src="./assets/icon-mockup-panel.png" alt="" />
+                <div class="mockup-title">
+                  <strong id="mockupName">icon preview</strong>
+                  <small>Created by: tiktfilters.co</small>
+                </div>
+                <div class="camera-label" id="cameraLabel">Effect selected</div>
+                <div class="effect-grid" id="effectGrid"></div>
+              </div>
+            </div>
+            <div class="mockup-pager">
+              <span class="active"></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="export-panel">
+            <div class="export-settings">
+              <label>
+                Format
+                <select id="formatSelect">
+                  <option value="png">PNG</option>
+                  <option value="jpg">JPG</option>
+                  <option value="mp4">MP4</option>
+                </select>
+              </label>
+              <label>
+                FPS
+                <select id="fpsSelect">
+                  <option value="24">24</option>
+                  <option value="30" selected>30</option>
+                  <option value="60">60</option>
+                </select>
+              </label>
+              <label>
+                Quality
+                <input class="range" id="qualityRange" type="range" min="0.6" max="1" step="0.05" value="0.92" />
+              </label>
+            </div>
+            <button class="outline-button full" id="exportMockupBtn" type="button">Export mock-up</button>
+            <button class="primary-button full asset-export" id="exportAssetBtn" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></svg>
+              <span>Export icon (324 x 324)</span>
+            </button>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <input id="psdInput" type="file" accept=".psd,.fig,.figma,image/*" hidden />
+    <script src="./app.js"></script>
+  </body>
+</html>
